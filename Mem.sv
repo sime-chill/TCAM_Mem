@@ -120,7 +120,7 @@ module Mem
     .VBE(VBE),
     .DCS(DCS),
     .WR(WR),
-    .RD(RD),
+    .RD(0),
     .CMP(CMP_In),
     .DI(Data_In),
     .MSKB(MSKB),
