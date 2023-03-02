@@ -23,7 +23,8 @@ module Mem
     input  [Bits - 1 : 0]         Data_In,
     input  [Bits - 1 : 0]         Mask_In,
     input  [BankSize - 1 : 0]     CBE,
-    input  [AddressSize - 1 : 0]  Addr_In
+    input  [AddressSize - 1 : 0]  Addr_In,
+    input                         CMP_In
   );
 
   reg       [Bits - 1 : 0]        DI_In;
@@ -120,7 +121,7 @@ module Mem
     .DCS(DCS),
     .WR(WR),
     .RD(RD),
-    .CMP(CMP),
+    .CMP(CMP_In),
     .DI(DI),
     .MSKB(MSKB),
     .VBI(VBI),
