@@ -51,7 +51,7 @@ module tb
     TCAM_Reset();
     TCAM_Write_Continuous(4'b0, 2'b0, 2'b0, {Bits{1'b1}}, ZERO_A, 1, 1, 1, 1, 16);
     TCAM_Write_Continuous(4'b0, 2'b0, 2'b0, {Bits{1'b1}}, ZERO_A, 0, 1, 1, 0, 16);
-    Neuro_Fire(3);
+//    Neuro_Fire(3);
     TCAM_Compare($random($time()) % 16, {Bits{1'b1}}, 1);
     $finish;
   end
