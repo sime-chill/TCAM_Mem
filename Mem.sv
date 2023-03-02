@@ -115,7 +115,7 @@ module Mem
   SFLA40_16X8BW16 CAM_Axon(
     .CK(clk),
     .CS(CS),
-    .RST(rst_n),
+    .RST(!rst_n),
     .FLUSH(FLUSH),
     .VBE(VBE),
     .DCS(DCS),
