@@ -42,7 +42,7 @@ module Mem
   reg                           CMP;
   reg                           RD;
   always_ff @(posedge clk) begin
-    if(!rst_n && CS)
+    if(!rst_n)
       CMP <= 0;
     else if(CS && !WR && !RD && !FLUSH)
       CMP <= 1;
@@ -50,7 +50,7 @@ module Mem
       CMP <= 0;
   end
   always_ff @(posedge clk) begin
-    if(CS && !rst_n)
+    if(!rst_n)
       RD <= 0;
     else if(CS && CMP)
       RD <= 1;
@@ -104,7 +104,7 @@ module Mem
     .MSKB(MSKB),
     .VBI(VBI),
     .A(A),
-    .CBE(CBE),
+    .CBE(1'b1),
     .DO(DO),
     .VBO(VBO),
     .HIT(HIT),
