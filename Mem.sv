@@ -122,7 +122,7 @@ module Mem
     .WR(WR),
     .RD(RD),
     .CMP(CMP_In),
-    .DI(DI),
+    .DI(Data_In),
     .MSKB(MSKB),
     .VBI(VBI),
     .A(A),
