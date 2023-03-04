@@ -15,6 +15,14 @@ module tb
   parameter                        Axon_Width                            = 2;
   parameter                        Synapse_Width                         = 2;
   parameter                        Weight_Width                          = 4;
+  parameter                        ZERO_ID                               = {ID_Width{1'b0}};
+
+  parameter                        MODE_I                                = 3'b000;
+  parameter                        MODE_W                                = 3'b001;
+  parameter                        MODE_R                                = 3'b010;
+  parameter                        MODE_F                                = 3'b011;
+  parameter                        MODE_C                                = 3'b100;
+  parameter                        MODE_RST                              = 3'b101;
 
 `ifdef FSDB
   initial begin
@@ -36,6 +44,10 @@ module tb
   reg       [ID_Width - 1 : 0]     PacketID_In;
   wire      [ID_Width - 1 : 0]     DstID_Out;
   wire      [Weight_Width - 1 : 0] Weight_Out;
+  reg       [2 : 0]                MODE;
+  reg                              Vbe_In, Dcs_In, Vbi_In;
+  reg       [Bits - 1 : 0]         Data_In, Mskb_In;
+  reg       [AddressSize - 1 : 0]  A_In;
 
   //TCAM_Write(DI, MASK, A, DCS, VBE, VBI)
   //TCAM_Write_Continuous(PacketID_In, Axon_In, Synapse_In, MASK, A, DCS, VBE, VBI, Inc, Time)
@@ -48,18 +60,14 @@ module tb
   initial begin
     clk = 0;
     #(PERIOD);
-    TCAM_Reset();
-    TCAM_Write_Continuous(4'b0, 2'b0, 2'b0, {Bits{1'b1}}, ZERO_A, 1, 1, 1, 1, 16);
-    TCAM_Write_Continuous(4'b0, 2'b0, 2'b0, {Bits{1'b1}}, ZERO_A, 0, 1, 1, 0, 16);
-//    Neuro_Fire(3);
-    TCAM_Compare($random($time()) % 16, {Bits{1'b1}}, 1);
+    M_RST();
     $finish;
   end
 
   task automatic Neuro_Fire
     (
       input [4 : 0] Time
-      );
+    );
     repeat(Time) begin
       CS          = 1;
       PacketID_In = $random($time()) % 16;
@@ -251,9 +259,21 @@ module tb
     #PERIOD;
   endtask
 
+  task automatic M_RST
+    (
+    );
+    //to reset successfully, must initialize other mode signals
+    PacketID_In = ZERO_ID;
+    rst         = 1;
+    MODE        = MODE_RST;
+    #PERIOD;
+    rst         = 0;
+    MODE        = MODE_I;
+    #PERIOD;
+  endtask
+
   Mem #(
     .ID_Width(ID_Width),
-    .Weight_Width(Weight_Width),
     .AddressSize(AddressSize),
     .Bits(Bits),
     .Words(Words),
@@ -264,18 +284,13 @@ module tb
     .rst_n(!rst),
     .PacketID_In(PacketID_In),
     .DstID_Out(DstID_Out),
-    .Weight_Out(Weight_Out),
-    .CS(CS),
-    .FLUSH(FLUSH),
-    .VBE(VBE),
-    .DCS(DCS),
-    .WR(WR),
-    .VBI(VBI),
     .Data_In(DI),
-    .Mask_In(MSKB),
-    .CBE(CBE),
-    .Addr_In(A),
-    .CMP_In(CMP)
+    .MODE(MODE),
+    .Vbe_In(Vbe_In),
+    .Dcs_In(Dcs_In),
+    .Vbi_In(Vbi_In),
+    .Mskb_In(Mskb_In),
+    .A_In(A_In)
   );
 
 endmodule

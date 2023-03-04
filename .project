@@ -14,4 +14,31 @@
 	<natures>
 		<nature>ro.amiq.vlogdt.VlogNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>DVT Auto-Linked</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>DVT Auto-Linked/D᎓</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>DVT Auto-Linked/D᎓/CAM</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>DVT Auto-Linked/D᎓/CAM/TCAM_Mem</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>DVT Auto-Linked/D᎓/CAM/TCAM_Mem/SFLA40_16X8BW16.v</name>
+			<type>1</type>
+			<location>D:/CAM/TCAM_Mem/SFLA40_16X8BW16.v</location>
+		</link>
+	</linkedResources>
 </projectDescription>
