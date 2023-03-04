@@ -267,7 +267,6 @@ module tb
     rst         = 1;
     MODE        = MODE_RST;
     #PERIOD;
-    #PERIOD;
     rst         = 0;
     MODE        = MODE_I;
     #PERIOD;
