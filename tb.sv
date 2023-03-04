@@ -58,7 +58,7 @@ module tb
   //Neuron_Fire(Time)
 
   initial begin
-    clk = 0;
+    clk = 1;
     #(PERIOD);
     M_RST();
     $finish;
