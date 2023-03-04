@@ -1,0 +1,63 @@
+*** Start analyzing build configuration ***
+Auto-config - Scanning: D:\CAM\TCAM_Mem
+Auto-config - VLOG: D:\CAM\TCAM_Mem
+Auto-config - Wrote:
+    D:\CAM\TCAM_Mem\.dvt\default.build.auto.1
+*** List of included argument files ***
+    Build configuration file:  D:\CAM\TCAM_Mem\.dvt\default.build
+    -f D:\CAM\TCAM_Mem\.dvt\default.build.auto.1
+*** List of invocations ***
+Invocation #1 +dvt_init+dvt in D:\CAM\TCAM_Mem\.dvt\default.build.auto.1 at line 9
+*** Done analyzing build configuration [16 ms] ***
+*** Start SystemVerilog build ***
+*** Loading top files ***
+Loading (1) D:\CAM\TCAM_Mem\SFLA40_16X8BW16.v ...
+Done D:\CAM\TCAM_Mem\SFLA40_16X8BW16.v [59 ms, 1919 lines, Verilog_2001] ...
+Loading (2) D:\CAM\TCAM_Mem\Mem.sv ...
+Done D:\CAM\TCAM_Mem\Mem.sv [4 ms, 249 lines, SystemVerilog_2012] ...
+Loading (3) D:\CAM\TCAM_Mem\tb.sv ...
+Done D:\CAM\TCAM_Mem\tb.sv [5 ms, 282 lines, SystemVerilog_2012] ...
+*** Done parsing [LT 21.0 ms, PT 66.0 ms, SGT 7%, UGT 2%] ***
+*** Total number of lines [2 450] ***
+Performing post full build actions ...
+Performing post full build step 1 (SRI) [0 ms] ...
+Performing post full build step 2 (RI) [0 ms] ...
+Performing post full build step 3 (RCP) [0 ms] ...
+*** Done SystemVerilog build [70 ms] ***
+*** Start mixed mode extension build ***
+Performing mixed post full build step 1 (Verilog - RI) [0 ms] ...
+Performing mixed post full build step 2 (Verilog - RC) [1 ms] ...
+Performing mixed post full build step 3 (Verilog - RPC) [2 ms] ...
+*** Error: NON_EXISTING_PORT: Non existing port 'Weight_Out' of module 'Mem'
+    at line 267 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'CS' of module 'Mem'
+    at line 268 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'FLUSH' of module 'Mem'
+    at line 269 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'VBE' of module 'Mem'
+    at line 270 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'DCS' of module 'Mem'
+    at line 271 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'WR' of module 'Mem'
+    at line 272 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'VBI' of module 'Mem'
+    at line 273 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'Mask_In' of module 'Mem'
+    at line 275 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'CBE' of module 'Mem'
+    at line 276 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'Addr_In' of module 'Mem'
+    at line 277 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PORT: Non existing port 'CMP_In' of module 'Mem'
+    at line 278 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+*** Error: NON_EXISTING_PARAMETER: Non existing parameter 'Weight_Width' of type 'Mem'
+    at line 256 in D:\CAM\TCAM_Mem\tb.sv [compile index 3]
+Performing mixed post full build step 4 (Verilog - RD) [1 ms] ...
+Performing mixed post full build step 5 (Verilog - FSC) [64 ms] ...
+Performing mixed post full build step 6 (Verilog - EV) [63 ms] ...
+Performing mixed post full build step 7 (Verilog - US) [61 ms] ...
+Performing mixed post full build step 8 (Verilog - EP) [0 ms] ...
+*** Done mixed mode extension build [290 ms] ***
+*** Start adding/validating the DVT Auto-Linked resources ***
+*** Done adding/validating the DVT Auto-Linked resources [1 ms] ***
+*** Total build time [378 ms] ***
