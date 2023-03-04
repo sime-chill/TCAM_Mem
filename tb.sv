@@ -263,12 +263,12 @@ module tb
     (
     );
     //to reset successfully, must initialize other mode signals
-    PacketID_In = ZERO_ID;
-    rst         = 1;
-    MODE        = MODE_RST;
+    PacketID_In <= ZERO_ID;
+    rst         <= 1;
+    MODE        <= MODE_RST;
     #PERIOD;
-    rst         = 0;
-    MODE        = MODE_I;
+    rst         <= 0;
+    MODE        <= MODE_I;
     #PERIOD;
   endtask
 
