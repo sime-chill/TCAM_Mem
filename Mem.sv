@@ -55,12 +55,13 @@ module Mem
     case (C_State)
       RESET : begin
         case (MODE)
-          MODE_W : N_State  = WRITE;
-          MODE_R : N_State  = READ;
-          MODE_C : N_State  = COMPARE;
-          MODE_F : N_State  = FLU;
-          MODE_I : N_State  = IDLE;
-          default : N_State = IDLE;
+          MODE_W : N_State   = WRITE;
+          MODE_R : N_State   = READ;
+          MODE_C : N_State   = COMPARE;
+          MODE_F : N_State   = FLU;
+          MODE_I : N_State   = IDLE;
+          MODE_RST : N_State = RESET;
+          default : N_State  = IDLE;
         endcase
       end
       IDLE : begin
