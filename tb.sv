@@ -75,12 +75,12 @@ module tb
     (
     );
     //to reset successfully, must initialize other mode signals
-    PacketID_In <= ZERO_ID;
-    rst = 1;
-    MODE_In     <= MODE_RST;
+    PacketID_In = ZERO_ID;
+    rst         = 1;
+    MODE_In     = MODE_RST;
     #PERIOD;
-    rst = 0;
-    MODE_In     <= MODE_I;
+    rst         = 0;
+    MODE_In     = MODE_I;
     #PERIOD;
   endtask
 
@@ -94,21 +94,21 @@ module tb
       input Vbe,
       input Vbi
     );
-    MODE_In <= MODE;
-    Data_In <= Data;
-    Mskb_In <= Mskb;
-    A_In    <= A;
-    Dcs_In  <= Dcs;
-    Vbe_In  <= Vbe;
-    Vbi_In  <= Vbi;
+    MODE_In = MODE;
+    Data_In = Data;
+    Mskb_In = Mskb;
+    A_In    = A;
+    Dcs_In  = Dcs;
+    Vbe_In  = Vbe;
+    Vbi_In  = Vbi;
     #PERIOD;
-    MODE_In <= MODE_I;
-    Data_In <= ZERO_D;
-    Mskb_In <= ZERO_D;
-    A_In    <= ZERO_A;
-    Dcs_In  <= Dcs;
-    Vbe_In  <= 0;
-    Vbi_In  <= 0;
+    MODE_In = MODE_I;
+    Data_In = ZERO_D;
+    Mskb_In = ZERO_D;
+    A_In    = ZERO_A;
+    Dcs_In  = Dcs;
+    Vbe_In  = 0;
+    Vbi_In  = 0;
     #PERIOD;
   endtask
 
@@ -119,15 +119,15 @@ module tb
       input Dcs, //data care select
       input Vbe
     );
-    MODE_In <= MODE_R;
-    A_In    <= A;
-    Dcs_In  <= Dcs;
-    Vbe_In  <= Vbe;
+    MODE_In = MODE_R;
+    A_In    = A;
+    Dcs_In  = Dcs;
+    Vbe_In  = Vbe;
     #PERIOD;
-    MODE_In <= MODE_I;
-    A_In    <= ZERO_A;
-    Dcs_In  <= Dcs;
-    Vbe_In  <= 0;
+    MODE_In = MODE_I;
+    A_In    = ZERO_A;
+    Dcs_In  = Dcs;
+    Vbe_In  = 0;
     #PERIOD;
   endtask
 
