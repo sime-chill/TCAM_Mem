@@ -149,116 +149,125 @@ module Mem
   //Encoder, 16 - 1
   integer                         i;
   reg       [AddressSize - 1 : 0] Encoder_out;
-  always @(*) begin
+  always_comb begin
     Encoder_out = 0;
     for(i = Words - 1; i >= 0; i = i - 1) begin
       if(Hitline[i]) Encoder_out = Words - i;
     end
   end
 
-
-  always_ff @(posedge clk) begin
-    if(!rst_n) begin
-      Cs    <= 1;
-      Flush <= 0;
-      Vbe   <= 0;
-      Dcs   <= 0;
-      Wr    <= 0;
-      Rd    <= 0;
-      Cmp   <= 0;
-      Di    <= ZERO_D;
-      Mskb  <= ZERO_D;
-      Vbi   <= 0;
-      A     <= ZERO_A;
-      Cbe   <= 0;
-    end
-    else if(N_State == WRITE) begin
-      Cs    <= 1;
-      Flush <= 0;
-      Vbe   <= Vbe_In;
-      Dcs   <= Dcs_In;
-      Wr    <= 1'b1;
-      Rd    <= 0;
-      Cmp   <= 0;
-      Di    <= Data_In;
-      Mskb  <= Mskb_In;
-      Vbi   <= Vbi_In;
-      A     <= A_In;
-      Cbe   <= 0;
-    end
-    else if(N_State == READ) begin
-      Cs    <= 1;
-      Flush <= 0;
-      Vbe   <= Vbe_In;
-      Dcs   <= Dcs_In;
-      Wr    <= 0;
-      Rd    <= 1;
-      Cmp   <= 0;
-      Di    <= ZERO_D;
-      Mskb  <= ZERO_D;
-      Vbi   <= 0;
-      A     <= A_In;
-      Cbe   <= 0;
-    end
-    else if(N_State == COMPARE) begin
-      Cs    <= 1;
-      Flush <= 0;
-      Vbe   <= 0;
-      Dcs   <= 0;
-      Wr    <= 0;
-      Rd    <= 0;
-      Cmp   <= 1;
-      Di    <= {PacketID_In, {ID_Width{1'b0}}};
-      Mskb  <= {{ID_Width{1'b1}}, {ID_Width{1'b0}}};
-      Vbi   <= 0;
-      A     <= ZERO_A;
-      Cbe   <= 0;
-    end
-    else if(N_State == CMP_RD) begin
-      Cs    <= 1;
-      Flush <= 0;
-      Vbe   <= 1;
-      Dcs   <= 1; //read data array
-      Wr    <= 0;
-      Rd    <= 1;
-      Cmp   <= 0;
-      Di    <= ZERO_D;
-      Mskb  <= ZERO_D;
-      Vbi   <= 0;
-      A     <= Encoder_out;
-      Cbe   <= 0;
-    end
-    else if(N_State == FLU) begin
-      Cs    <= 1;
-      Flush <= 1;
-      Vbe   <= 0;
-      Dcs   <= 0;
-      Wr    <= 0;
-      Rd    <= 0;
-      Cmp   <= 0;
-      Di    <= ZERO_D;
-      Mskb  <= ZERO_D;
-      Vbi   <= 0;
-      A     <= ZERO_A;
-      Cbe   <= 0;
-    end
-    else if(N_State == IDLE) begin
-      Cs    <= 0;
-      Flush <= 0;
-      Rd    <= 0;
-      Wr    <= 0;
-      Cmp   <= 0;
-    end
-    else begin
-      Cs    <= 0;
-      Flush <= 0;
-      Rd    <= 0;
-      Wr    <= 0;
-      Cmp   <= 0;
-    end
+  always_comb begin
+    case (C_State)
+      READ : begin
+        #1;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = Vbe_In;
+        Dcs   = Dcs_In;
+        Wr    = 0;
+        Rd    = 1;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = A_In;
+        Cbe   = 0;
+      end
+      WRITE : begin
+        #1;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = Vbe_In;
+        Dcs   = Dcs_In;
+        Wr    = 1;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = Data_In;
+        Mskb  = Mskb_In;
+        Vbi   = Vbi_In;
+        A     = A_In;
+        Cbe   = 0;
+      end
+      COMPARE : begin
+        #1;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 1;
+        Di    = {PacketID_In, {ID_Width{1'b0}}};
+        Mskb  = {{ID_Width{1'b1}}, {ID_Width{1'b0}}};
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
+      end
+      CMP_RD : begin
+        #1;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 1;
+        Dcs   = 1;
+        Wr    = 0;
+        Rd    = 1;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = Encoder_out;
+        Cbe   = 0;
+      end
+      FLU : begin
+        #1;
+        Cs    = 1;
+        Flush = 1;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
+      end
+      RESET : begin
+        #1;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
+      end
+      IDLE : begin
+        #1;
+        Cs    = 0;
+        Flush = 0;
+        Rd    = 0;
+        Wr    = 0;
+        Cmp   = 0;
+      end
+      default : begin
+        #1;
+        Cs    = 0;
+        Flush = 0;
+        Rd    = 0;
+        Wr    = 0;
+        Cmp   = 0;
+      end
+    endcase
   end
 
-  //If hit, take the CAM output
+//If hit, take the CAM output
   assign DstID_Out = Hit && Vbo ? Do[ID_Width - 1 : 0] : {ID_Width{1'b0}};
 
   SFLA40_16X8BW16 CAM_Axon(
