@@ -78,7 +78,7 @@ module tb
     PacketID_In <= ZERO_ID;
     rst = 1;
     MODE_In     <= MODE_RST;
-    #(PERIOD * 2);
+    #PERIOD;
     rst = 0;
     MODE_In     <= MODE_I;
     #PERIOD;
