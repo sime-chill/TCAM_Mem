@@ -35,7 +35,7 @@ module tb
   always #(PERIOD / 2) clk = !clk;
   reg                              CS, FLUSH, VBE, DCS, WR, RD, CMP, VBI;
   reg       [BankSize - 1 : 0]     CBE;
-  reg       [Bits - 1 : 0]         DI, MSKB, Data_In;
+  reg       [Bits - 1 : 0]         DI, MSKB;
   reg       [AddressSize - 1 : 0]  A;
   wire      [Bits - 1 : 0]         DO;
   wire                             VBO, HIT;
@@ -66,6 +66,7 @@ module tb
     M_RST();
     M_WR(MODE_W, ZERO_D, {Bits{1'b1}}, 4'b1, 1, 1, 1);
     M_RD(MODE_R, 4'b1, 1, 1);
+    #PERIOD;
     $finish;
   end
 
