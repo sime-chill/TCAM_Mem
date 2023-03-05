@@ -159,102 +159,110 @@ module Mem
   always @(*) begin
     case (C_State)
       READ : begin
-        #50; Cs    = 1;
-        #50; Flush = 0;
-        #50; Vbe   = Vbe_In;
-        #50; Dcs   = Dcs_In;
-        #50; Wr    = 0;
-        #50; Rd    = 1;
-        #50; Cmp   = 0;
-        #50; Di    = ZERO_D;
-        #50; Mskb  = ZERO_D;
-        #50; Vbi   = 0;
-        #50; A     = A_In;
-        #50; Cbe   = 0;
+        #50;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = Vbe_In;
+        Dcs   = Dcs_In;
+        Wr    = 0;
+        Rd    = 1;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = A_In;
+        Cbe   = 0;
       end
       WRITE : begin
-        #50; Cs    = 1;
-        #50; Flush = 0;
-        #50; Vbe   = Vbe_In;
-        #50; Dcs   = Dcs_In;
-        #50; Wr    = 1;
-        #50; Rd    = 0;
-        #50; Cmp   = 0;
-        #50; Di    = Data_In;
-        #50; Mskb  = Mskb_In;
-        #50; Vbi   = Vbi_In;
-        #50; A     = A_In;
-        #50; Cbe   = 0;
+        #50;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = Vbe_In;
+        Dcs   = Dcs_In;
+        Wr    = 1;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = Data_In;
+        Mskb  = Mskb_In;
+        Vbi   = Vbi_In;
+        A     = A_In;
+        Cbe   = 0;
       end
       COMPARE : begin
-        #50; Cs    = 1;
-        #50; Flush = 0;
-        #50; Vbe   = 0;
-        #50; Dcs   = 0;
-        #50; Wr    = 0;
-        #50; Rd    = 0;
-        #50; Cmp   = 1;
-        #50; Di    = {PacketID_In, {ID_Width{1'b0}}};
-        #50; Mskb  = {{ID_Width{1'b1}}, {ID_Width{1'b0}}};
-        #50; Vbi   = 0;
-        #50; A     = ZERO_A;
-        #50; Cbe   = 0;
+        #50;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 1;
+        Di    = {PacketID_In, {ID_Width{1'b0}}};
+        Mskb  = {{ID_Width{1'b1}}, {ID_Width{1'b0}}};
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
       end
       CMP_RD : begin
-        #50; Cs    = 1;
-        #50; Flush = 0;
-        #50; Vbe   = 1;
-        #50; Dcs   = 1;
-        #50; Wr    = 0;
-        #50; Rd    = 1;
-        #50; Cmp   = 0;
-        #50; Di    = ZERO_D;
-        #50; Mskb  = ZERO_D;
-        #50; Vbi   = 0;
-        #50; A     = Encoder_out;
-        #50; Cbe   = 0;
+        #50;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 1;
+        Dcs   = 1;
+        Wr    = 0;
+        Rd    = 1;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = Encoder_out;
+        Cbe   = 0;
       end
       FLU : begin
-        #50; Cs    = 1;
-        #50; Flush = 1;
-        #50; Vbe   = 0;
-        #50; Dcs   = 0;
-        #50; Wr    = 0;
-        #50; Rd    = 0;
-        #50; Cmp   = 0;
-        #50; Di    = ZERO_D;
-        #50; Mskb  = ZERO_D;
-        #50; Vbi   = 0;
-        #50; A     = ZERO_A;
-        #50; Cbe   = 0;
+        #50;
+        Cs    = 1;
+        Flush = 1;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
       end
       RESET : begin
-        #50; Cs    = 1;
-        #50; Flush = 0;
-        #50; Vbe   = 0;
-        #50; Dcs   = 0;
-        #50; Wr    = 0;
-        #50; Rd    = 0;
-        #50; Cmp   = 0;
-        #50; Di    = ZERO_D;
-        #50; Mskb  = ZERO_D;
-        #50; Vbi   = 0;
-        #50; A     = ZERO_A;
-        #50; Cbe   = 0;
+        50;
+        Cs    = 1;
+        Flush = 0;
+        Vbe   = 0;
+        Dcs   = 0;
+        Wr    = 0;
+        Rd    = 0;
+        Cmp   = 0;
+        Di    = ZERO_D;
+        Mskb  = ZERO_D;
+        Vbi   = 0;
+        A     = ZERO_A;
+        Cbe   = 0;
       end
       IDLE : begin
-        #50; Cs    = 0;
-        #50; Flush = 0;
-        #50; Rd    = 0;
-        #50; Wr    = 0;
-        #50; Cmp   = 0;
+        #50;
+        Cs    = 0;
+        Flush = 0;
+        Rd    = 0;
+        Wr    = 0;
+        Cmp   = 0;
       end
       default : begin
-        #50; Cs    = 0;
-        #50; Flush = 0;
-        #50; Rd    = 0;
-        #50; Wr    = 0;
-        #50; Cmp   = 0;
+        #50;
+        Cs    = 0;
+        Flush = 0;
+        Rd    = 0;
+        Wr    = 0;
+        Cmp   = 0;
       end
     endcase
   end
