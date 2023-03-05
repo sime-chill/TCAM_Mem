@@ -44,14 +44,14 @@ module Mem
   parameter                       MODE_RST         = 3'b101;
 
 
-  always_ff @(posedge clk) begin
+  always @(posedge clk) begin
     if(!rst_n)
       C_State <= RESET;
     else
       C_State <= N_State;
   end
 
-  always_comb begin //the logic jump to next state
+  always @(*) begin //the logic jump to next state
     case (C_State)
       RESET : begin
         case (MODE)
@@ -149,14 +149,14 @@ module Mem
   //Encoder, 16 - 1
   integer                         i;
   reg       [AddressSize - 1 : 0] Encoder_out;
-  always_comb begin
+  always @(*) begin
     Encoder_out = 0;
     for(i = Words - 1; i >= 0; i = i - 1) begin
       if(Hitline[i]) Encoder_out = Words - i;
     end
   end
 
-  always_comb begin
+  always @(*) begin
     case (C_State)
       READ : begin
         #50; Cs    = 1;
