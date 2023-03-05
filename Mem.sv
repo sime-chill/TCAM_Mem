@@ -234,7 +234,7 @@ module Mem
         Cbe   = 0;
       end
       RESET : begin
-        50;
+        #50;
         Cs    = 1;
         Flush = 0;
         Vbe   = 0;
