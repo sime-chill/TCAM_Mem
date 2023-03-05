@@ -35,7 +35,7 @@ module tb
   always #(PERIOD / 2) clk = !clk;
   reg                              CS, FLUSH, VBE, DCS, WR, RD, CMP, VBI;
   reg       [BankSize - 1 : 0]     CBE;
-  reg       [Bits - 1 : 0]         DI, MSKB;
+  reg       [Bits - 1 : 0]         DI, MSKB, Data_In;
   reg       [AddressSize - 1 : 0]  A;
   wire      [Bits - 1 : 0]         DO;
   wire                             VBO, HIT;
@@ -44,7 +44,7 @@ module tb
   reg       [ID_Width - 1 : 0]     PacketID_In;
   wire      [ID_Width - 1 : 0]     DstID_Out;
   wire      [Weight_Width - 1 : 0] Weight_Out;
-  reg       [2 : 0]                MODE;
+  reg       [2 : 0]                MODE_In;
   reg                              Vbe_In, Dcs_In, Vbi_In;
   reg       [Bits - 1 : 0]         Data_In, Mskb_In;
   reg       [AddressSize - 1 : 0]  A_In;
@@ -57,12 +57,99 @@ module tb
   //TCAM_Compare_Continuous(DI, MASK, BANK, Time)
   //Neuron_Fire(Time)
 
+  //M_WR(MODE, DI, MSAK, A, DCS, VBE, VBI)
+  //M_RD(MODE, A, DCS, VBE)
+
   initial begin
     clk = 1;
     #(PERIOD);
     M_RST();
+    M_WR(MODE_W, ZERO_D, {Bits{1'b1}}, 4'b1, 1, 1, 1);
+    M_RD(MODE_R, 4'b1, 1, 1);
     $finish;
   end
+
+
+  task automatic M_RST
+    (
+    );
+    //to reset successfully, must initialize other mode signals
+    PacketID_In <= ZERO_ID;
+    rst = 1;
+    MODE_In     <= MODE_RST;
+    #(PERIOD * 2);
+    rst = 0;
+    MODE_In     <= MODE_I;
+    #PERIOD;
+  endtask
+
+  task automatic M_WR
+    (
+      input [2 : 0] MODE,
+      input [Bits - 1 : 0] Data,
+      input [Bits - 1 : 0] Mskb,
+      input [AddressSize - 1 : 0] A,
+      input Dcs, //data(1) care(0) select
+      input Vbe,
+      input Vbi
+    );
+    MODE_In <= MODE;
+    Data_In <= Data;
+    Mskb_In <= Mskb;
+    A_In    <= A;
+    Dcs_In  <= Dcs;
+    Vbe_In  <= Vbe;
+    Vbi_In  <= Vbi;
+    #PERIOD;
+    MODE_In <= MODE_I;
+    Data_In <= ZERO_D;
+    Mskb_In <= ZERO_D;
+    A_In    <= ZERO_A;
+    Dcs_In  <= Dcs;
+    Vbe_In  <= 0;
+    Vbi_In  <= 0;
+    #PERIOD;
+  endtask
+
+  task automatic M_RD
+    (
+      input [2 : 0] MODE,
+      input [AddressSize - 1 : 0] A,
+      input Dcs, //data care select
+      input Vbe
+    );
+    MODE_In <= MODE_R;
+    A_In    <= A;
+    Dcs_In  <= Dcs;
+    Vbe_In  <= Vbe;
+    #PERIOD;
+    MODE_In <= MODE_I;
+    A_In    <= ZERO_A;
+    Dcs_In  <= Dcs;
+    Vbe_In  <= 0;
+    #PERIOD;
+  endtask
+
+  Mem #(
+    .ID_Width(ID_Width),
+    .AddressSize(AddressSize),
+    .Bits(Bits),
+    .Words(Words),
+    .BankSize(BankSize)
+  )
+  DUT(
+    .clk(clk),
+    .rst_n(!rst),
+    .PacketID_In(PacketID_In),
+    .DstID_Out(DstID_Out),
+    .Data_In(Data_In),
+    .MODE(MODE_In),
+    .Vbe_In(Vbe_In),
+    .Dcs_In(Dcs_In),
+    .Vbi_In(Vbi_In),
+    .Mskb_In(Mskb_In),
+    .A_In(A_In)
+  );
 
   task automatic Neuro_Fire
     (
@@ -259,38 +346,5 @@ module tb
     #PERIOD;
   endtask
 
-  task automatic M_RST
-    (
-    );
-    //to reset successfully, must initialize other mode signals
-    PacketID_In <= ZERO_ID;
-    rst         = 1;
-    MODE        <= MODE_RST;
-    #(PERIOD * 2);
-    rst         = 0;
-    MODE        <= MODE_I;
-    #PERIOD;
-  endtask
-
-  Mem #(
-    .ID_Width(ID_Width),
-    .AddressSize(AddressSize),
-    .Bits(Bits),
-    .Words(Words),
-    .BankSize(BankSize)
-  )
-  DUT(
-    .clk(clk),
-    .rst_n(!rst),
-    .PacketID_In(PacketID_In),
-    .DstID_Out(DstID_Out),
-    .Data_In(DI),
-    .MODE(MODE),
-    .Vbe_In(Vbe_In),
-    .Dcs_In(Dcs_In),
-    .Vbi_In(Vbi_In),
-    .Mskb_In(Mskb_In),
-    .A_In(A_In)
-  );
 
 endmodule
