@@ -242,8 +242,20 @@ module Mem
       A                         <= ZERO_A;
       Cbe                       <= 0;
     end
-    else if(N_State == IDLE) Cs <= 0;
-    else Cs                     <= 0;
+    else if(N_State == IDLE) begin
+      Cs <= 0;
+      Flush <= 0;
+      Rd <= 0;
+      Wr <= 0;
+      Cmp <= 0;
+    end
+    else begin
+      Cs <= 0;
+      Flush <= 0;
+      Rd <= 0;
+      Wr <= 0;
+      Cmp <= 0;
+    end
   end
 
   //If hit, take the CAM output
