@@ -23,6 +23,8 @@ module tb
   parameter                        MODE_F                                = 3'b011;
   parameter                        MODE_C                                = 3'b100;
   parameter                        MODE_RST                              = 3'b101;
+  parameter DELAY = 50;
+
 
 `ifdef FSDB
   initial begin
@@ -75,10 +77,11 @@ module tb
     (
     );
     //to reset successfully, must initialize other mode signals
+    #DELAY;
     PacketID_In = ZERO_ID;
     rst         = 1;
     MODE_In     = MODE_RST;
-    #(PERIOD * 2);
+    #(PERIOD * 3);
     rst         = 0;
     MODE_In     = MODE_I;
     #PERIOD;
@@ -94,6 +97,7 @@ module tb
       input Vbe,
       input Vbi
     );
+    #DELAY;
     MODE_In = MODE;
     Data_In = Data;
     Mskb_In = Mskb;
